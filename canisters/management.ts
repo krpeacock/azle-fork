@@ -5,7 +5,7 @@ import {
     nat,
     nat8,
     Opt,
-    UpdateAsync
+    CanisterResult
 } from '../index';
 
 export type CanisterStatus = Variant<{
@@ -35,6 +35,6 @@ export type CanisterStatusResult = {
 
 // TODO let's see if we can automatically export this elsewhere...we do not want it to get picked up if it's not being used
 export type Management = Canister<{
-    raw_rand(): UpdateAsync<nat8[]>;
-    canister_status(canisterStatusArgs: CanisterStatusArgs): UpdateAsync<CanisterStatusResult>;
+    raw_rand(): CanisterResult<nat8[]>;
+    canister_status(canisterStatusArgs: CanisterStatusArgs): CanisterResult<CanisterStatusResult>;
 }>;

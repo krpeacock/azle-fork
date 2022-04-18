@@ -101,6 +101,9 @@ export function generateReturnValueHandler(implItemMethod: ImplItemMethod): Rust
     // return `serde_json::from_value(return_value.to_json(&mut boa_context).unwrap()).unwrap()`;
 }
 
+// TODO the generator implementation is not sufficient
+// TODO I am afraid we might have to do something recursively...well we can just mutate things I guess
+// TODO but if we return a generator as the call to next, we need to deal with that as well it seems
 export function generateHandleGeneratorResultFunction(callFunctionInfos: CallFunctionInfo[]): Rust {
     return `
         async fn handle_generator_result(
@@ -125,6 +128,8 @@ export function generateHandleGeneratorResultFunction(callFunctionInfos: CallFun
                 let yield_result_done_js_value = yield_result_js_object.get("done", boa_context).unwrap();
                 let yield_result_done_bool = yield_result_done_js_value.as_boolean().unwrap();
                 
+                // TODO we need to handle this return value being a generator
+                // TODO we will have to emulate recursion with mutations
                 let yield_result_value_js_value = yield_result_js_object.get("value", boa_context).unwrap();
 
                 if yield_result_done_bool == false {
